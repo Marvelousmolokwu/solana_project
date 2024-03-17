@@ -6,7 +6,11 @@ export default {
   ],
   theme: {
     
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'hero-img': 'url("https://res.cloudinary.com/ddgyd8szc/image/upload/v1710697909/banner-bg_ygbaqx.png")'
+      }
+    },
   },
   plugins: [],
 }

@@ -1,52 +1,148 @@
 import React, { useEffect, useState, useHistory } from 'react'
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet   } from '@solana/wallet-adapter-react';
 import { PhantomWalletName } from '@solana/wallet-adapter-wallets';
 import { Button } from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import {useBlog} from '../../Context/blog'
+import { PostForm } from '../../components/Form';
+import { publicKey } from '@project-serum/anchor/dist/cjs/utils';
 
 const Dashboard = () =>{
   const navigate = useNavigate()
-  const [connectings, setConnectings] = useState(false)
-  // const {connected, select} = useWallet()
-  const { connect, select, connecting, connected } = useWallet();
-  const [initialized, setInitialized] = useState(false);
-  const {user} = useBlog()
+  const [connecting, setConnectings] = useState(false)
+  const [connected, setConnected] = useState(false)
+  
+  
+  // const { select, connecting, disconnect } = useWallet();
 
-  const posts =[];
-  const createPosts =() =>{
+ 
 
-  }
-  const showModal = false
-  const setShowModal = ()=>{
+  const {user, initialized, initUser, showModal, setShowModal,createPost,posts } = useBlog()
+  const [postTitle, setPostTitle] = useState("")
+  const [postContent, setPostContent] = useState("")
+  const [postGenre, setPostGenre] = useState("");
+  const [postDate, setPostDate] = useState("")
+  const [provider, setProvider] = useState(null);
 
-  }
-  // const onConnect = ()=>{
-  //   setConnectings(true)
-  //   select(PhantomWalletName)
-  // }
-  const onConnect = async () => {
-    try {
-      // Connect with Phantom wallet
-      await select(PhantomWalletName);
-      console.log("md")
-    } catch (error) {
-      console.error('Failed to connect with Phantom wallet:', error);
+
+  
+ 
+
+ 
+  
+
+  // const connectWallet = async () => {
+  //   try {
+  //     setConnectings(true);
+
+  //     // Check if Phantom is installed and accessible
+  //     if (!window.solana) {
+  //       console.log("isfalse")
+  //       // Phantom not detected, redirect to download page
+  //       window.open('https://phantom.app/download', '_blank');
+  //       return; // Stop further execution
+  //     }
+
+  //     // Connect with Phantom wallet if present
+  //     const { select } = await window.solana.connect({ onlyIfTrusted: true });
+  //     if (select) {
+  //     select(PhantomWalletName) // Request accounts from user
+  //       setConnected(true);
+  //       console.log('Wallet connected successfully:', accounts);
+  //     } else {
+  //       console.log('User rejected connection request');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error connecting with Phantom wallet:', error);
+  //   } finally {
+  //     setConnectings(false);
+  //   }
+  // };
+
+  const getProvider = () => {
+    if ('phantom' in window) {
+      const provider = window.phantom?.solana;
+  setProvider(provider)
+      if (provider?.isPhantom) {
+        return provider;
+      }
     }
+  
+    window.open('https://phantom.app/', '_blank');
   };
+
+  
+
+  const connectWallet= async ()=>{
+    const provider = getProvider(); 
+    setConnectings(true);
+    try {
+      const resp = await provider.connect();
+      console.log(resp.publicKey.toString());
+      setConnected(true);
+      // 26qv4GCcx98RihuK3c4T6ozB3J7L6VwCuFVc7Ta2A3Uo 
+  } catch (err) {
+      // { code: 4001, message: 'User rejected the request.' }
+  }finally {
+        setConnectings(false);
+      }
+      provider.on("connect", () => console.log("connected!"));
+  }
+
+  const disconnectWallet = async ()=>{
+    try {
+
+       await provider.disconnect();
+      
+      setConnected(false);
+      // 26qv4GCcx98RihuK3c4T6ozB3J7L6VwCuFVc7Ta2A3Uo 
+  } catch (err) {
+      // { code: 4001, message: 'User rejected the request.' }
+  }
+  }
+  // useEffect(() => {
+  //   const provider = getProvider();
+  //   // Store user's public key once they connect
+    
+  //  provider.on("connect", (publicKey) => {
+  //    setPubKey(publicKey);
+  //  });
+ 
+  //  // Forget user's public key once they disconnect
+  //  provider.on("disconnect", () => {
+  //    setPubKey(null);
+  //  });
+  //  }, [provider])
+
+  // const disconnectWallet = async () => {
+  //   try {
+  //     await disconnect();
+  //     console.log('Wallet disconnected successfully!');
+  //     // Update UI to reflect disconnected state
+  //   } catch (error) {
+  //     console.error('Error disconnecting wallet:', error);
+  //     // Optional: Handle errors gracefully
+  //   }
+  // };
   useEffect(() => {
     if (connected) {
       setConnectings(false)
-      setInitialized(true)
+      console.log("connected")
+      
+      // setInitialized(true)
     }
+    console.log(user.name)
   }, [connected])
+
+  
   return (
    <>
    
-   <div>
-    <p>name</p>
-    <img src="" alt="name-pic" />
-    {connected ? (
+   <section className='nav min-h-full bg-black '>
+    <nav className='bg-blue-500'>
+      <div className='logo text-4xl font-extrabold bg-gradient-to-r from-[#aa367c]  to-[#4a2fbd] w-fit text-transparent bg-clip-text'>Excolo</div>
+      <div>
+      {connected ? (
             <div className="flex items-center">
               <p className=" font-bold text-sm ml-2 capitalize underlinepink">
                 Home
@@ -75,7 +171,9 @@ const Dashboard = () =>{
                 <Button
                   className="ml-3 mr-2"
                   onClick={() => {
+                   
                     initUser()
+                    console.log("init")
                   }}
                 >
                   Initialize User
@@ -83,39 +181,30 @@ const Dashboard = () =>{
               )}
 
             </div>
-          ) : (
-            // <Button
-            //   loading={connectings}
-            //   className="w-28"
-            //   onClick={onConnect}
-            //   leftIcon={
-            //     <svg
-            //       xmlns="http://www.w3.org/2000/svg"
-            //       className="h-5 w-5 mr-1"
-            //       fill="none"
-            //       viewBox="0 0 24 24"
-            //       stroke="currentColor"
-            //     >
-            //       <path
-            //         strokeLinecap="round"
-            //         strokeLinejoin="round"
-            //         strokeWidth={2}
-            //         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-            //       />
-            //     </svg>
-            //   }
-            // >
-            //   Connect
-            // </Button>
+          ) : 
+          (!connected && (
             <Button
-          loading={connecting}
-          onClick={onConnect}
-          disabled={connecting} // Disable button when connecting
-        >
-          {connecting ? 'Connecting...' : 'Connect with Phantom'}
-        </Button>
-          )}
-    </div>
+              onClick={connectWallet}
+              loading={connecting}
+              disabled={connecting} // Disable button while connecting
+            >
+              {connecting ? 'Connecting...' : 'Connect with Phantom'}
+            </Button>
+          ))
+          }
+      </div>
+      <div className="flex items-center">
+  <button onClick={() => disconnectWallet()}>Disconnect Wallet</button>
+</div>
+    </nav>
+   </section>
+   
+
+
+
+
+
+
     <div>
         <img src="" alt="blog-pic" />
     </div>
@@ -124,15 +213,17 @@ const Dashboard = () =>{
     <div >
 {posts.map((item)=>{
   return(
-    <article className='post__card-2' onClick={()=>{navigate(`/read-post/${item.publickey.toString()}`)}} key={item.account.id}>
+    <article className='post__card-2 bg-slate-500' onClick={()=>{navigate(`/read-post/${item.publickey.toString()}`)}} key={item.account.id}>
 <div className='post__card-2'>
+  {item.account.title}
   <div className='post__card-2__img'>
 <img src="" alt="" />
   </div>
 </div>
 <div className='post__card__meta'>
 
-  <div className='post__card__cat-2'>2nd dec 2020</div>
+  <div className='post__card__cat-2'>{item.account.date}</div>
+
   <p className='post__card__content-2'>
 {item.account.content}
   </p>
@@ -142,19 +233,23 @@ const Dashboard = () =>{
 })}
 
     </div>
-    <div className={`modal ${showModal && 'show-modal'}`}>
+    {showModal &&<div >
 
       <div className='="modal-content'>
-        <span className='modal-content' onClick={()=>setShowModal(false)}>X</span>
-{/* <PostForm
+        <span className='modal-content text-blue-800' onClick={()=>setShowModal(false)}>X</span>
+<PostForm
 postTitle={postTitle}
 postContent = {postContent}
+postGenre = {postGenre}
+setPostGenre ={setPostGenre}
+postDate = {postDate}
+setPostDate = {setPostDate}
 setPostTitle={setPostTitle}
 setPostContent={setPostContent}
-onSubmit={()=>createPost(postTitle)}
-/> */}
+onSubmit={()=>createPost(postTitle, postContent, postDate, postGenre)}
+/>
       </div>
-    </div>
+    </div>}
     </>
 
 
