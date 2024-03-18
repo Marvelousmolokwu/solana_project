@@ -14,8 +14,9 @@ const router = createBrowserRouter(
             <Route
           index
           element={
-            <React.Suspense >
-              <LazyDashborad />
+            <React.Suspense>
+
+            <LazyWelcome/>
             </React.Suspense>
           }
         ></Route>
@@ -28,11 +29,11 @@ const router = createBrowserRouter(
 
           
         </Route>
-        <Route path="/welcome/" element={
-          <React.Suspense>
-
-<LazyWelcome/>
-</React.Suspense>
+        <Route path="/dashboard/" element={
+          <React.Suspense >
+          <LazyDashborad />
+        </React.Suspense>
+         
         }>
 
           

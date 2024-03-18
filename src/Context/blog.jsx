@@ -39,6 +39,7 @@ export const BlogProvider =({children})=>{
 const [initialized, setInitialized] = useState(false)
 const [transactionpending, setTransactionpending] = useState(false)
 const [showModal, setShowModal] = useState(false)
+const[loading, setLoading] = useState(false)
 const [postId, setPostId] = useState(0)
     const anchorWallet = useAnchorWallet()
     const {connection} = useConnection()
@@ -59,6 +60,7 @@ const [postId, setPostId] = useState(0)
 
 useEffect(()=>{
     const start = async ()=>{
+        setLoading(true);
         if (program && publicKey){
             try{
                 const [userpda] = await findProgramAddressSync([utf8.encode('user'),publicKey.toBuffer()], program.programId)
@@ -78,7 +80,9 @@ useEffect(()=>{
             }catch(err){
 console.log("no user")
 setInitialized(false)
-            }
+            }finally {
+                setLoading(false); // Set loading to false after fetching data
+              }
         }
     }
     start()
@@ -141,7 +145,7 @@ const createPost = async (title, content, date, genre)=>{
 }
     return(
         <BlogContext.Provider 
-        value={{user, handleUsernameSubmit,initialized, initUser, showModal, setShowModal,createPost, posts, filteredPosts}}>
+        value={{user, handleUsernameSubmit,initialized, loading, initUser, showModal, setShowModal,createPost, posts, filteredPosts}}>
             {children}
         </BlogContext.Provider>
     )

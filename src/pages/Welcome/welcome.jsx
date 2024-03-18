@@ -15,7 +15,7 @@ const WelcomePage = () => {
 
     const handleSubmit = () => {
         handleUsernameSubmit(username, email, about, pay);
-        navigate("/")
+        navigate("/dashboard")
     };
 
     return (

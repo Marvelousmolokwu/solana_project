@@ -14,6 +14,7 @@ export default function FullPost() {
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos eius enim quo magni officia ab tenetur, nemo libero, cumque ex beatae incidunt nisi voluptatem animi, voluptatibus repellat. Accusamus, aspernatur porro!</p>
 <h3 className=' text-lg'>By: Ifeoma</h3>
 <p>Created on 24th december 2024</p>
+<p>Pay Range: $500 -$1000</p>
 <a href="mailto:recipient@example.com" className="rounded-lg flex justify-center items-center border-purple-300  py-2 px-4 border  text-sm font-medium text-purple-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 focus:outline-none shadow-md w-[30%]">Connect</a>
     </div>
       </div>
