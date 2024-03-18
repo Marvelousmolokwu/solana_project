@@ -3,10 +3,18 @@
 @tailwind utilities;
 
 @layer base{
-  
+  p{
+   @apply text-xl
+  }
+  h5{
+    @apply font-bold text-4xl
+  }
+  body{
+    @apply overflow-x-hidden
+  }
 }
 @layer components{
     .container{
-        @apply max-w-[80%] lg:max-w-[70%] mx-auto h-full my-5 
+        @apply max-w-[80%] lg:max-w-[75%] mx-auto h-full py-5 
        }
 }

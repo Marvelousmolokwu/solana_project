@@ -11,7 +11,7 @@ export const Button = ({
     return (
       <button
         disabled={disabled}
-        className={`rounded-lg flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium text-blue-800 bg-gradient-to-r pink focus:outline-none shadow-md 
+        className={`rounded-lg flex justify-center items-center border-purple-300  py-2 px-4 border  text-sm font-medium text-purple-300 bg-gradient-to-r pink focus:outline-none shadow-md 
               ${className} ${
           disabled
             ? "opacity-60 cursor-not-allowed"

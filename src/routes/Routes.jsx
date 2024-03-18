@@ -3,6 +3,8 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 const LazyDashborad = React.lazy(() => import("../pages/Dashboard/dashboard"));
 const LazyFullpage = React.lazy(() => import("../pages/Fullpost/fullpost/"));
 const LazyWelcome = React.lazy(()=> import("../pages/Welcome/welcome"))
+const LazyPost = React.lazy(()=> import("../pages/posts/posts"))
+
 
 
 export const Routes = ()=>{
@@ -17,7 +19,7 @@ const router = createBrowserRouter(
             </React.Suspense>
           }
         ></Route>
-        <Route path="/fullpost" element={
+        <Route path="/fullpost/" element={
           <React.Suspense>
 
 <LazyFullpage/>
@@ -26,10 +28,19 @@ const router = createBrowserRouter(
 
           
         </Route>
-        <Route path="/welcome" element={
+        <Route path="/welcome/" element={
           <React.Suspense>
 
 <LazyWelcome/>
+</React.Suspense>
+        }>
+
+          
+        </Route>
+        <Route path="/posts/:genreprop" element={
+          <React.Suspense>
+
+<LazyPost/>
 </React.Suspense>
         }>
 

@@ -5,6 +5,7 @@ import { Button } from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import {useBlog} from '../../Context/blog'
 import { PostForm } from '../../components/Form';
+import { Link } from 'react-router-dom';
 import { publicKey } from '@project-serum/anchor/dist/cjs/utils';
 
 const Dashboard = () =>{
@@ -137,13 +138,14 @@ const Dashboard = () =>{
   
   return (
    <>
-   
-   <section className='nav min-h-full bg-black '>
-    <nav className='bg-blue-500'>
-      <div className='logo text-4xl font-extrabold bg-gradient-to-r from-[#aa367c]  to-[#4a2fbd] w-fit text-transparent bg-clip-text'>Excolo</div>
-      <div>
+   <section className='relative'>
+   <div className="nav h-screen bg-black bg-hero-img ">
+    <div className="container">
+    <nav className='flex justify-between items-center '>
+      <div className='logo text-4xl font-extrabold bg-gradient-to-r from-pink-500  to-purple-300 w-fit text-transparent bg-clip-text'>Excolo</div>
+      <div className='flex justify-between items-center' >
       {connected ? (
-            <div className="flex items-center">
+            <div className="flex items-center text-purple-300">
               <p className=" font-bold text-sm ml-2 capitalize underlinepink">
                 Home
               </p>
@@ -192,51 +194,188 @@ const Dashboard = () =>{
             </Button>
           ))
           }
-      </div>
-      <div className="flex items-center">
-  <button onClick={() => disconnectWallet()}>Disconnect Wallet</button>
+           <div className="flex items-center">
+  {connected && <Button className='bg-gradient-to-r from-pink-500  to-purple-300 text-black hover:bg-black hover:text-white' onClick={() => disconnectWallet()}>Disconnect Wallet</Button>}
 </div>
+      </div>
+     
     </nav>
-   </section>
+
+
+    <section className='flex items-center justify-between mt-16'>
+      <div className='flex items-end  gap-4'>
+      <img
+                src={user?.avatar}
+                alt="avatar"
+                className="w-16 h-16 rounded-full bg-purple-200 shadow ring-2 ring-purple-400 ring-offset-2 ring-opacity-50"
+              />
+              <div>
+                <p className='text-gray-300 border-b border-gray-300 p-4 font-semibold' onClick={() => {
+                    setShowModal(true)
+                  }}>Hi {user.name} Type what your'e feeling</p>
+              </div>
+      </div>
+
+      <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710700268/header-img_2_w6viae.svg" alt=""  className="w-96 animate-updown"/>
+    </section>
+    </div>
+    
+   </div>
    
 
 
 
 
 
+{/* Estimation and information section */}
+  <section className='h-screen  bg-black bg-bg-color bg-no-repeat bg-cover'>
+<div className='container '>
+<div className='border border-purple-300 bg-black rounded-lg h-[70%] z-40 -mt-20 text-purple-300   flex  justify-between items-center px-10 text-center'>
+ <div className="flex-col justify-center items-center   ">
+  <div className='flex justify-center'>
+     <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710729820/icons8-circle-64_kpekmk.png" className='w-16 ' alt="Image " />
+  </div>
+ 
+ <h5 >Reader</h5>
+ <p>10 Complete reads</p>
+</div>
+<div className="flex-col justify-center items-center">
+   <div className='flex justify-center'>
+  <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710730096/icons8-circle-64_1_wkbupl.png" alt="Image" className='w-16 ' />
+ </div>
+ <h5 >30 </h5>
+ <p>Bookmarks</p>
+</div>
+<div className="flex-col justify-center items-center ">
+   <div className='flex justify-center'>
+  <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710730096/icons8-circle-50_zpadg2.png" alt="Image" className='w-16 ' />
+ </div>
+ <h5 >Connect </h5>
+ <p>with Beautiful Writers <br/> all over the world</p>
+</div>
+<div className="flex-col justify-center items-center">
+   <div className='flex justify-center'>
+  <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710729820/icons8-circle-64_kpekmk.png" alt="Image" className='w-16 '/>
+ </div>
+ <h5 >10 </h5>
+ <p>Exciting posts</p>
+</div>
+</div>
+</div>
 
-    <div>
-        <img src="" alt="blog-pic" />
-    </div>
-    <article>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt vitae, reiciendis iste esse laudantium a voluptate quis perferendis? Porro eligendi, exercitationem iure magni laboriosam quo doloremque vero dignissimos quod culpa.</article>
+    </section >
+
     
-    <div >
-{posts.map((item)=>{
+    {/* Posts */}
+     <section className='h-screen  bg-black bg-bg-up-color bg-no-repeat bg-cover text-purple-300'>
+      <div className='container text-white text-center'>
+      
+        
+      <div className='grid grid-cols-3 gap-6' >
+        
+          <button onClick={()=>navigate(`/posts/${"politcs"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+   <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent '>Politics & Finance</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710732669/pawel-czerwinski-cPxNce0o_Jk-unsplash_nuzv10.jpg" alt="" className='h-full w-full rounded-lg -z-10 ' />
+</button>
+<button onClick={()=>navigate(`/posts/${"technology"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+<div className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-30'>
+  <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent '>Technology</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710748603/nasa-Q1p7bh3SHj8-unsplash_nwcyyv.jpg" alt="" className='h-full w-full rounded-lg' />
+</div>
+</button>
+<button onClick={()=>navigate(`/posts/${"fantasy"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+<div className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-30'>
+   <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent text-black '>Fantasy & Stories</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710732669/james-fitzgerald-Xv3xUBpHvOU-unsplash_ylqyfd.jpg" alt="" className='h-full w-full rounded-lg' />
+</div>
+</button>
+<button onClick={()=>navigate(`/posts/${"Stocks"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+<div className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-30'>
+   <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent '>Stocks & Cryptocurrencies</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710748613/pascal-bernardon-zt0HWquGXlQ-unsplash_krerhn.jpg" alt="" className='h-full w-full rounded-lg' />
+</div></button>
+<button onClick={()=>navigate(`/posts/${"entertainment"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+<div className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-30'>
+     <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent '>Lifesyle & Entertainment</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710750844/gr-stocks-q8P8YoR6erg-unsplash_mvkw8l.jpg" alt="" className='h-full w-full rounded-lg' />
+
+</div>
+</button>
+<button onClick={()=>navigate(`/posts/${"others"}`)} className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-300'>
+<div className='w-full h-[14rem] rounded-lg  relative overflow-hidden hover:border hover:border-purple-30'>
+   <h2 className='text-center pt-20 text-xl hover:text-2xl absolute w-full h-full bg-transparent text-black'>Others</h2>
+    <img src="https://res.cloudinary.com/ddgyd8szc/image/upload/v1710750805/ella-jardim-M0zs81FNm6s-unsplash_ecqdo1.jpg" alt="" className='h-full w-full rounded-lg' />
+
+</div>
+</button>
+</div>
+        
+
+
+
+{/* {posts.map((item)=>{
   return(
-    <article className='post__card-2 bg-slate-500' onClick={()=>{navigate(`/read-post/${item.publickey.toString()}`)}} key={item.account.id}>
-<div className='post__card-2'>
-  {item.account.title}
-  <div className='post__card-2__img'>
-<img src="" alt="" />
+
+
+
+
+  )
+})} */}
+
+    
+      </div>
+    
+
+    </section>
+
+
+    {/* Footer */}
+
+    <section className='bg-black h-screen'>
+      <div className='container'>
+<div className='bg-white rounded-3xl h-[40%]  flex justify-between items-center p-20 -mt-24'>
+
+  <h5 className='text-black w-1/2'>Subcribe to our Newsletters & and never miss latest updates</h5>
+
+  <div className='border border-pink-500 p-1 flex justify-between rounded-lg'>
+    <input type=" 
+    " placeholder="Email Address" className='outline-none'/>
+    <Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-[50%]'>Submit</Button>
   </div>
 </div>
-<div className='post__card__meta'>
-
-  <div className='post__card__cat-2'>{item.account.date}</div>
-
-  <p className='post__card__content-2'>
-{item.account.content}
-  </p>
+<div className='flex flex-col justify-center  gap-10 mt-20'>
+    <div className='logo text-4xl font-extrabold bg-gradient-to-r from-pink-500  to-purple-300 w-fit text-transparent bg-clip-text'>Excolo</div>
+<div className='text-purple-300 font-semibold flex justify-between items-center text-xl '>
+  <ul className='flex flex-col gap-2'>
+  <li><a href=""></a>X</li>
+  <li><a href="">LinkedIn</a></li>
+  <li><a href="">Instagram</a></li>
+</ul>
+<ul className='flex flex-col gap-2'>
+  <li><a href="">+2348139574141</a></li>
+  <li><a href="">Abuja, Nigeria</a></li>
+  <li><a href="">help@excolo.com</a></li>
+</ul>
+<ul className='flex flex-col gap-2'>
+  <li><a href="">About us</a></li>
+  <li><a href="">FAQs</a></li>
+  <li><a href="">Security</a></li>
+</ul>
 </div>
-    </article>
-  )
-})}
 
-    </div>
-    {showModal &&<div >
+</div>
+      </div>
+    </section>
+   
+    {showModal && <div className='' >
 
-      <div className='="modal-content'>
-        <span className='modal-content text-blue-800' onClick={()=>setShowModal(false)}>X</span>
+      <div className="fixed top-[2%] w-full left-[25%] ">
+      
+        <span className='modal-content font-semibold cursor-pointer  text-purple-300 h-8 w-8 text-sm border border-purple-300 rounded-full px-2 py-1 z-20 ' onClick={()=>{
+          console.log(showModal)
+          setShowModal(false)}}>X</span>
+      
+      
 <PostForm
 postTitle={postTitle}
 postContent = {postContent}
@@ -250,6 +389,7 @@ onSubmit={()=>createPost(postTitle, postContent, postDate, postGenre)}
 />
       </div>
     </div>}
+    </section>
     </>
 
 
